@@ -62,6 +62,7 @@ class MainScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Drive Protect'),
       ),
+      backgroundColor: Colors.white,
       body: Center(
         child: Text('Main Screen Content'),
       ),
