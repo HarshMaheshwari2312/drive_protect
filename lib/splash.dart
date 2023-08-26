@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:driveprotect/home.dart';
 
 void main() {
   runApp(DriveProtectApp());
@@ -32,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
       // After the delay, navigate to the main screen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MainScreen()), // Replace with your main screen widget
+        MaterialPageRoute(builder: (context) => HomeScreen()), // Replace with your main screen widget
       );
     });
   }
@@ -55,17 +56,3 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 
-class MainScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Drive Protect'),
-      ),
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Text('Main Screen Content'),
-      ),
-    );
-  }
-}
