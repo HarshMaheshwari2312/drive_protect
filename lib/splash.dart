@@ -1,23 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:driveprotect/home.dart';
-
-void main() {
-  runApp(DriveProtectApp());
-}
-
-class DriveProtectApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Drive Protect',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: SplashScreen(), // Replace with your home screen widget
-    );
-  }
-}
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -28,14 +12,44 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Simulate a delay to mimic loading time
-    Timer(Duration(seconds: 5), () {
-      // After the delay, navigate to the main screen
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()), // Replace with your main screen widget
-      );
-    });
+    _checkInternetAndNavigate();
+  }
+
+  Future<void> _checkInternetAndNavigate() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    if (connectivityResult == ConnectivityResult.none) {
+      _showNoInternetDialog();
+    } else {
+      _navigateToHome();
+    }
+  }
+
+  void _showNoInternetDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('No Internet Connection'),
+        content: Text('Please check your internet connection and try again.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _checkInternetAndNavigate();
+            },
+            child: Text('Retry'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _navigateToHome() async {
+    await Future.delayed(Duration(seconds: 2)); // Simulating a delay
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomeScreen()),
+    );
   }
 
   @override
