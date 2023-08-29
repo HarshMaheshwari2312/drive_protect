@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:driveprotect/home.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,46 +11,14 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _checkInternetAndNavigate();
+    // Simulate a delay to mimic loading time
+    Timer(Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    });
   }
-
-  Future<void> _checkInternetAndNavigate() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-
-    if (connectivityResult == ConnectivityResult.none) {
-      _showNoInternetDialog();
-    } else {
-      _navigateToHome();
-    }
-  }
-
-  void _showNoInternetDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('No Internet Connection'),
-        content: Text('Please check your internet connection and try again.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _checkInternetAndNavigate();
-            },
-            child: Text('Retry'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _navigateToHome() async {
-    await Future.delayed(Duration(seconds: 2)); // Simulating a delay
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
