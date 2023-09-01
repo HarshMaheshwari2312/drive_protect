@@ -8,6 +8,8 @@ import 'package:driveprotect/notifications.dart';
 import 'package:driveprotect/privacy_policy.dart';
 import 'package:driveprotect/send_feedback.dart';
 import 'package:driveprotect/settings.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -43,12 +45,38 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.indigoAccent,
         title: Text("Drive Protect"),
       ),
-      body: Container(
-        child: Center(
-          child: Text("Home Page"),
-        ),
+      body: Stack(
+        children: [
+          Positioned(
+            top: 10,
+            left: 0,
+            child: Container(
+              width: 200,
+              height: 200,
+              child: SfRadialGauge(
+                enableLoadingAnimation: true,
+                animationDuration: 4500,
+                axes: <RadialAxis>[
+                  RadialAxis(
+                    minimum: 0,
+                    maximum: 150,
+                    ranges: <GaugeRange>[
+                      GaugeRange(startValue: 0, endValue: 50, color: Colors.green),
+                      GaugeRange(startValue: 50, endValue: 100, color: Colors.orange),
+                      GaugeRange(startValue: 100, endValue: 150, color: Colors.red),
+                    ],
+                    pointers: <GaugePointer>[
+                      NeedlePointer(value: 100,enableAnimation: true,),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+
       ),
-      drawer: Drawer(
+        drawer: Drawer(
         child: SingleChildScrollView(
           child: Container(
             child: Column(
