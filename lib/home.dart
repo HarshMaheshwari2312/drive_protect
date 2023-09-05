@@ -8,7 +8,6 @@ import 'package:driveprotect/notifications.dart';
 import 'package:driveprotect/privacy_policy.dart';
 import 'package:driveprotect/send_feedback.dart';
 import 'package:driveprotect/settings.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -103,6 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {
             if (id == 1) {
               currentPage = DrawerSections.dashboard;
+              Navigator.pushNamed(context, '/dashboard');
             } else if (id == 2) {
               currentPage = DrawerSections.contacts;
             } else if (id == 3) {
