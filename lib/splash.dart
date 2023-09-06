@@ -1,7 +1,8 @@
 import 'dart:async';
+import 'package:driveprotect/home.dart';
 import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:driveprotect/home.dart';
+import 'package:driveprotect/login.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -48,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(Duration(seconds: 2)); // Simulating a delay
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
+      MaterialPageRoute(builder: (context) => Login()),
     );
   }
 

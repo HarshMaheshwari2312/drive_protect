@@ -3,6 +3,10 @@
         android:label="driveprotect"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDiI4syMfe23AZkyosq9eohAp5rVpjlC98"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
