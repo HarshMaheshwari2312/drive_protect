@@ -26,8 +26,22 @@ class _HomeScreenState extends State<HomeScreen> {
   Completer<GoogleMapController>();
 
   static const CameraPosition _kGooglePlex = CameraPosition(
-      target: LatLng(37.42796133580664, -122.085749655962),
-      zoom: 14.4746);
+      target: LatLng(27.786545,77.440749),
+      zoom: 20);
+  List<Marker> _marker = [];
+  List<Marker> _list = const [
+    Marker(
+        markerId: MarkerId('1'),
+    position: LatLng(27.786545,77.440749))
+  ];
+
+  @override
+  void initState(){
+    super.initState();
+    _marker.addAll(_list);
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +69,9 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text("Drive Protect"),
       ),
       body: GoogleMap(
-      mapType: MapType.hybrid,
+      mapType: MapType.normal,
       initialCameraPosition: _kGooglePlex,
+      markers: Set<Marker>.of(_marker),
       onMapCreated: (GoogleMapController controller) {
         _controller.complete(controller);
       },
