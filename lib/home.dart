@@ -21,7 +21,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   var currentPage = DrawerSections.dashboard;
-
   final Completer<GoogleMapController> _controller =
   Completer<GoogleMapController>();
 
@@ -68,16 +67,85 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.blue,
         title: Text("Drive Protect"),
       ),
-      body: GoogleMap(
-      mapType: MapType.normal,
-      initialCameraPosition: _kGooglePlex,
-      markers: Set<Marker>.of(_marker),
-      onMapCreated: (GoogleMapController controller) {
-        _controller.complete(controller);
-      },
-    ),
-
-
+      body: Container(
+        color: Colors.grey[200], // Set the desired background color
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start, // Align items to the left
+          children: <Widget>[
+            Container(
+              height: 500, // Set the desired height here
+              child: GoogleMap(
+                mapType: MapType.normal,
+                initialCameraPosition: _kGooglePlex,
+                markers: Set<Marker>.of(_marker),
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.directions_car_sharp,
+                        color: Colors.black,
+                      ),
+                      SizedBox(width: 8), // Add some space between the icon and text
+                      Text(
+                        "STATUS:", // Replace with actual speed value
+                        style: TextStyle(fontSize: 18), // Adjust the font size
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.speed,
+                        color: Colors.blue,
+                      ),
+                      SizedBox(width: 8), // Add some space between the icon and text
+                      Text(
+                        "Speed: 60 km/h", // Replace with actual speed value
+                        style: TextStyle(fontSize: 16), // Adjust the font size
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.analytics,
+                        color: Colors.green,
+                      ),
+                      SizedBox(width: 8), // Add some space between the icon and text
+                      Text(
+                        "Acceleration: 2 m/s²", // Replace with actual acceleration value
+                        style: TextStyle(fontSize: 16), // Adjust the font size
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.local_gas_station, // Icon for fuel status
+                        color: Colors.orange,
+                      ),
+                      SizedBox(width: 8), // Add some space between the icon and text
+                      Text(
+                        "Fuel Status: Full", // Replace with actual fuel status value
+                        style: TextStyle(fontSize: 16), // Adjust the font size
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
       drawer: Drawer(
         child: SingleChildScrollView(
           child: Container(
@@ -92,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  Widget MyDrawerList() {
+    Widget MyDrawerList() {
     return Container(
       padding: EdgeInsets.only(
         top: 15,
