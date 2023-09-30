@@ -15,13 +15,16 @@ class _DashboardPageState extends State<DashboardPage> {
     super.initState();
 
     // Initialize Firebase
-    DatabaseReference dbRef = FirebaseDatabase.instance.ref();
+    DatabaseReference dbRef = FirebaseDatabase.instance.reference();
 
     // Listen for changes in the "speed" child value in Firebase
     dbRef.child('speed').onValue.listen((event) {
       if (event.snapshot.value != null) {
-        // Get the speed value from Firebase as a double
-        double newSpeedValue = (event.snapshot.value as num).toDouble();
+        // Get the speed value from Firebase as a string
+        String speedString = event.snapshot.value.toString();
+
+        // Parse the string as a double
+        double newSpeedValue = double.tryParse(speedString) ?? 0;
 
         // Update the speed value in the gauge
         setState(() {
@@ -89,7 +92,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           GaugeRange(startValue: 75, endValue: 100, color: Colors.red),
                         ],
                         pointers: <GaugePointer>[
-                          NeedlePointer(value: 50, enableAnimation: true),
+                          NeedlePointer(value: speedValue, enableAnimation: true),
                         ],
                       ),
                     ],
@@ -113,7 +116,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           GaugeRange(startValue: 75, endValue: 100, color: Colors.red),
                         ],
                         pointers: <GaugePointer>[
-                          NeedlePointer(value: 50, enableAnimation: true),
+                          NeedlePointer(value: speedValue, enableAnimation: true),
                         ],
                       ),
                     ],
