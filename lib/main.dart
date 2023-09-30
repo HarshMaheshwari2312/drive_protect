@@ -4,9 +4,12 @@ import 'package:driveprotect/dashboard.dart';
 import 'package:driveprotect/login.dart';
 import 'package:driveprotect/signUp.dart';
 import 'package:driveprotect/home.dart';
+import 'package:firebase_core/firebase_core.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
-void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

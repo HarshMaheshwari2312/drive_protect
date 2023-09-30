@@ -1,7 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
+  @override
+  _DashboardPageState createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  double speedValue = 0; // Initial speed value
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize Firebase
+    DatabaseReference dbRef = FirebaseDatabase.instance.ref();
+
+    // Listen for changes in the "speed" child value in Firebase
+    dbRef.child('speed').onValue.listen((event) {
+      if (event.snapshot.value != null) {
+        // Get the speed value from Firebase as a double
+        double newSpeedValue = (event.snapshot.value as num).toDouble();
+
+        // Update the speed value in the gauge
+        setState(() {
+          speedValue = newSpeedValue;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // Calculate a base size based on the screen width
@@ -31,7 +60,7 @@ class DashboardPage extends StatelessWidget {
                         GaugeRange(startValue: 120, endValue: 180, color: Colors.red),
                       ],
                       pointers: <GaugePointer>[
-                        NeedlePointer(value: 100, enableAnimation: true),
+                        NeedlePointer(value: speedValue, enableAnimation: true),
                       ],
                     ),
                   ],

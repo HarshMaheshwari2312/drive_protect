@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "307314457419",
+    "firebase_url": "https://hello-66cc2-default-rtdb.firebaseio.com",
+    "project_id": "hello-66cc2",
+    "storage_bucket": "hello-66cc2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307314457419:android:83ec982893bc0870fc46ce",
+        "android_client_info": {
+          "package_name": "com.example.driveprotect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQ1SO551X27wyGvAiYQm5cIOxcCaARgc8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307314457419:android:5c6c6ed248582bfcfc46ce",
+        "android_client_info": {
+          "package_name": "com.example.firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQ1SO551X27wyGvAiYQm5cIOxcCaARgc8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

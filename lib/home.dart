@@ -11,36 +11,72 @@ import 'package:driveprotect/privacy_policy.dart';
 import 'package:driveprotect/send_feedback.dart';
 import 'package:driveprotect/settings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   var currentPage = DrawerSections.dashboard;
-  final Completer<GoogleMapController> _controller =
-  Completer<GoogleMapController>();
-
-  static const CameraPosition _kGooglePlex = CameraPosition(
-      target: LatLng(27.786545,77.440749),
-      zoom: 20);
-  List<Marker> _marker = [];
-  List<Marker> _list = const [
-    Marker(
-        markerId: MarkerId('1'),
-    position: LatLng(27.786545,77.440749))
-  ];
+  GoogleMapController? mapController;
+  DatabaseReference dbRef = FirebaseDatabase.instance.ref();
+  late Marker marker;
 
   @override
   void initState(){
     super.initState();
-    _marker.addAll(_list);
+    marker = Marker(
+      markerId: MarkerId("marker"),
+      position: LatLng(27.6, 54.3),
+      infoWindow: InfoWindow(title: "Marker"),
+    );
+    dbRef.child('lat').onValue.listen((event) {
+      if (event.snapshot.value != null) {
+        // Get the latitude value from Firebase as double
+        String latitudeStr = event.snapshot.value.toString();
+
+        // Convert the latitude string to a double
+        double latitude = double.tryParse(latitudeStr) ?? 0.0;
+        updateMarkerPosition(latitude);
+      }
+    });
+
+    dbRef.child('log').onValue.listen((event) {
+      if (event.snapshot.value != null) {
+        // Get the longitude value from Firebase as double
+        String longitudeStr = event.snapshot.value.toString();
+
+        // Convert the longitude string to a double
+        double longitude = double.tryParse(longitudeStr) ?? 0.0;
+        updateMarkerPosition(null, longitude);
+      }
+    });
   }
+  void updateMarkerPosition([double? latitude, double? longitude]) {
+    // Get the current marker position
+    LatLng currentPosition = marker.position;
 
+    // Update the marker's position with new latitude and/or longitude
+    if (latitude != null) {
+      currentPosition = LatLng(latitude, currentPosition.longitude);
+    }
+    if (longitude != null) {
+      currentPosition = LatLng(currentPosition.latitude, longitude);
+    }
 
+    // Update the marker
+    setState(() {
+      marker = Marker(
+        markerId: MarkerId("marker"),
+        position: currentPosition,
+        infoWindow: InfoWindow(title: "Marker"),
+      );
+
+    });
+    mapController?.animateCamera(CameraUpdate.newLatLng(currentPosition));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +111,14 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               height: 500, // Set the desired height here
               child: GoogleMap(
-                mapType: MapType.normal,
-                initialCameraPosition: _kGooglePlex,
-                markers: Set<Marker>.of(_marker),
-                onMapCreated: (GoogleMapController controller) {
-                  _controller.complete(controller);
+                onMapCreated: (controller) {
+                  mapController = controller;
                 },
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(27.6, 54.3),
+                  zoom: 12.0,
+                ),
+                markers: {marker},
               ),
             ),
             Padding(
@@ -160,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-    Widget MyDrawerList() {
+  Widget MyDrawerList() {
     return Container(
       padding: EdgeInsets.only(
         top: 15,
