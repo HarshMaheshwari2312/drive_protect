@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         'Login': (context) => Login(),
         'SignUp': (context) => SignUp(),
         'Home': (context) => HomeScreen(),
-        '/dashboard': (context) => DashboardPage(), // Define the dashboard route
+         // Define the dashboard route
         // Add more routes here if needed
       },
     );
